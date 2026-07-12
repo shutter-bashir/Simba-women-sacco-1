@@ -26,15 +26,7 @@
 
 ## The problem
 
-Across Kenya, informal savings groups — chamas and SACCOs — manage significant
-member money using handwritten ledgers and memory. Records get lost, interest
-arithmetic goes wrong, disputes are hard to settle, and the treasurer carries the
-entire burden. Commercial SACCO software assumes reliable internet, monthly fees,
-and a desktop computer — none of which fit a community group meeting once a month.
-
-This app digitizes the *actual rules* of a real cooperative, transcribed from its
-ledgers, and runs entirely on the treasurer's phone — **no server, no account, no
-internet required after install.**
+I built this system after watching my mother spend hours on tiresome calculations for her savings group. Across informal chamas and SACCOs, treasurers manage significant amounts of money relying entirely on handwritten ledgers. As a result, records get lost, interest arithmetic goes wrong, and the treasurer carries the entire administrative burden. Commercial software ignores these users by requiring desktop computers, monthly fees, and constant Wi-Fi. This app is built for how these groups actually operate. It digitizes the real-world rules from my mother's ledgers into an app that runs entirely on her phone—no server, no account, and no internet required.
 
 ## Features
 
