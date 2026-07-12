@@ -1,0 +1,1587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>SIMBA WOMEN — Savings & Credit Cooperative</title>
+<link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#0F130E" />
+<link rel="icon" href="icon-192.png" />
+<link rel="apple-touch-icon" href="apple-touch-icon.png" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Simba Women" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --bg:#0F130E;
+    --bg-2:#151B13;
+    --surface:#1A2118;
+    --surface-2:#232B1F;
+    --line:#35422F;
+    --line-soft:#2A3425;
+    --gold:#5FA878;
+    --gold-hi:#9ED4A6;
+    --gold-dim:#3F7355;
+    --ivory:#EFE8DB;
+    --muted:#9CA989;
+    --muted-2:#75816A;
+    --danger:#C46A57;
+    --danger-dim:#5A2E26;
+    --good:#9CAE76;
+    --radius:14px;
+    --shadow:0 24px 60px -24px rgba(0,0,0,.7);
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%}
+  body{
+    background:
+      radial-gradient(1100px 700px at 80% -10%, rgba(95,168,120,.09), transparent 60%),
+      radial-gradient(900px 600px at -10% 110%, rgba(201,162,75,.05), transparent 55%),
+      var(--bg);
+    color:var(--ivory);
+    font-family:"Inter",system-ui,sans-serif;
+    font-feature-settings:"cv05","ss01";
+    -webkit-font-smoothing:antialiased;
+    line-height:1.5;
+  }
+  .num{font-variant-numeric:tabular-nums;font-feature-settings:"tnum"}
+  ::selection{background:rgba(95,168,120,.30)}
+
+  /* ---------- typography helpers ---------- */
+  .serif{font-family:"Fraunces",serif}
+  .eyebrow{
+    font-size:11px;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--muted-2);font-weight:500;
+  }
+  h1,h2,h3{font-family:"Fraunces",serif;font-weight:400;letter-spacing:.005em}
+
+  /* ================= SPLASH ================= */
+  #splash{
+    position:fixed;inset:0;z-index:100;
+    display:grid;place-items:center;
+    background:
+      radial-gradient(1200px 800px at 50% 30%, rgba(95,168,120,.10), transparent 60%),
+      var(--bg);
+    transition:opacity .9s ease, visibility .9s ease;
+  }
+  #splash.gone{opacity:0;visibility:hidden;pointer-events:none}
+  .splash-inner{text-align:center;padding:32px;max-width:560px}
+  .emblem-wrap{display:inline-block;filter:drop-shadow(0 12px 30px rgba(95,168,120,.20))}
+  .splash-word{
+    margin-top:34px;font-size:clamp(38px,9vw,74px);line-height:.98;
+    font-weight:300;letter-spacing:.02em;color:var(--ivory);
+  }
+  .splash-word b{font-weight:500;color:var(--gold-hi)}
+  .splash-kicker{
+    margin-top:18px;font-size:13px;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--gold);font-weight:500;
+  }
+  .splash-sub{margin-top:10px;color:var(--muted);font-size:14px;letter-spacing:.03em}
+  .splash-line{
+    width:0;height:1px;margin:26px auto 0;
+    background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);
+    animation:lineGrow 1.1s .5s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes lineGrow{to{width:220px}}
+  .enter-btn{
+    margin-top:30px;background:transparent;color:var(--gold-hi);
+    border:1px solid var(--gold-dim);border-radius:999px;
+    padding:13px 34px;font-family:"Inter";font-size:12px;letter-spacing:.24em;
+    text-transform:uppercase;cursor:pointer;transition:.35s;font-weight:500;
+    opacity:0;animation:fadeUp .8s 1.1s forwards;
+  }
+  .enter-btn:hover{background:var(--gold);color:#0E1410;border-color:var(--gold)}
+
+  .fade-item{opacity:0;transform:translateY(14px);animation:fadeUp .9s forwards}
+  .d1{animation-delay:.35s}.d2{animation-delay:.6s}.d3{animation-delay:.8s}
+  @keyframes fadeUp{to{opacity:1;transform:none}}
+
+  /* mane rays */
+  .ray{transform-origin:center;opacity:0;animation:rayIn .9s forwards}
+  @keyframes rayIn{to{opacity:1}}
+
+  /* ================= APP SHELL ================= */
+  #app{opacity:0;transition:opacity .8s ease .2s;min-height:100vh;display:flex;flex-direction:column}
+  #app.show{opacity:1}
+
+  header.topbar{
+    position:sticky;top:0;z-index:20;
+    display:flex;align-items:center;gap:22px;
+    padding:16px 30px;
+    background:rgba(15,19,14,.82);backdrop-filter:blur(14px);
+    border-bottom:1px solid var(--line-soft);
+  }
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .brand .wm{display:flex;flex-direction:column;line-height:1}
+  .brand .wm .n{font-family:"Fraunces";font-size:19px;letter-spacing:.06em;font-weight:500}
+  .brand .wm .n b{color:var(--gold-hi);font-weight:500}
+  .brand .wm .t{font-size:9.5px;letter-spacing:.34em;color:var(--muted-2);text-transform:uppercase;margin-top:3px}
+
+  nav.tabs{display:flex;gap:4px;margin-left:auto;background:var(--bg-2);padding:5px;border-radius:999px;border:1px solid var(--line-soft)}
+  .tab{
+    border:none;background:transparent;color:var(--muted);
+    font-family:"Inter";font-size:12.5px;letter-spacing:.08em;font-weight:500;
+    padding:9px 20px;border-radius:999px;cursor:pointer;transition:.25s;text-transform:uppercase;
+    display:flex;align-items:center;gap:8px;
+  }
+  .tab:hover{color:var(--ivory)}
+  .tab.active{background:var(--gold);color:#0E1410}
+  .cycle-chip{
+    margin-left:10px;display:flex;align-items:center;gap:8px;
+    font-size:11px;letter-spacing:.14em;color:var(--muted);text-transform:uppercase;
+    border:1px solid var(--line);border-radius:999px;padding:8px 14px;white-space:nowrap;
+  }
+  .cycle-chip b{color:var(--gold-hi);font-weight:500}
+
+  main{flex:1;max-width:1240px;width:100%;margin:0 auto;padding:38px 30px 90px}
+  .view{display:none;animation:viewIn .5s ease}
+  .view.active{display:block}
+  @keyframes viewIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .view-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-bottom:8px}
+  .view-head h1{font-size:34px;font-weight:300}
+  .view-head h1 .accent{color:var(--gold-hi);font-weight:400;font-style:italic}
+  .view-head p.lede{color:var(--muted);font-size:14px;max-width:52ch;margin-top:6px}
+  .rule{height:1px;background:linear-gradient(90deg,var(--line),transparent);margin:22px 0 30px}
+
+  /* ---------- buttons ---------- */
+  .btn{
+    font-family:"Inter";font-size:12px;letter-spacing:.1em;text-transform:uppercase;font-weight:500;
+    border-radius:999px;padding:11px 22px;cursor:pointer;transition:.25s;border:1px solid transparent;display:inline-flex;align-items:center;gap:8px;
+  }
+  .btn-gold{background:var(--gold);color:#0E1410}
+  .btn-gold:hover{background:var(--gold-hi)}
+  .btn-ghost{background:transparent;color:var(--gold-hi);border-color:var(--gold-dim)}
+  .btn-ghost:hover{background:rgba(95,168,120,.1)}
+  .btn-quiet{background:var(--surface);color:var(--muted);border-color:var(--line)}
+  .btn-quiet:hover{color:var(--ivory);border-color:var(--gold-dim)}
+  .btn-sm{padding:8px 15px;font-size:10.5px;letter-spacing:.08em}
+  .btn-danger{background:transparent;color:var(--danger);border-color:var(--danger-dim)}
+  .btn-danger:hover{background:rgba(196,106,87,.12)}
+  .btn:disabled{opacity:.4;cursor:not-allowed}
+
+  /* ---------- cards / stats ---------- */
+  .card{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius)}
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px}
+  .stat{
+    background:linear-gradient(180deg,var(--surface),var(--bg-2));
+    border:1px solid var(--line-soft);border-radius:var(--radius);padding:22px 22px 20px;position:relative;overflow:hidden;
+  }
+  .stat::before{content:"";position:absolute;top:0;left:0;width:100%;height:2px;background:linear-gradient(90deg,var(--gold-dim),transparent 70%);opacity:.7}
+  .stat .k{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2)}
+  .stat .v{font-family:"Fraunces";font-size:30px;font-weight:400;margin-top:12px;color:var(--ivory)}
+  .stat .v small{font-size:15px;color:var(--muted);font-family:"Inter"}
+  .stat .foot{font-size:11.5px;color:var(--muted);margin-top:8px;letter-spacing:.02em}
+  .stat.accent .v{color:var(--gold-hi)}
+
+  /* ---------- table ---------- */
+  .panel{background:var(--surface);border:1px solid var(--line-soft);border-radius:var(--radius);overflow:hidden}
+  .panel-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line-soft);flex-wrap:wrap}
+  .panel-head h3{font-size:17px;font-weight:500}
+  .panel-head .eyebrow{margin-bottom:2px;display:block}
+  table{width:100%;border-collapse:collapse}
+  th{
+    text-align:left;font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2);
+    font-weight:500;padding:13px 22px;border-bottom:1px solid var(--line-soft);white-space:nowrap;
+  }
+  th.r,td.r{text-align:right}
+  td{padding:15px 22px;border-bottom:1px solid var(--line-soft);font-size:14px;vertical-align:middle}
+  tr:last-child td{border-bottom:none}
+  tbody tr{transition:background .2s}
+  tbody tr:hover{background:rgba(95,168,120,.05)}
+  tr.defaulter{background:rgba(196,106,87,.07)}
+  tr.defaulter:hover{background:rgba(196,106,87,.11)}
+  tr.defaulter td:first-child{box-shadow:inset 3px 0 0 var(--danger)}
+
+  .who{display:flex;align-items:center;gap:12px}
+  .avatar{
+    width:38px;height:38px;border-radius:50%;flex-shrink:0;
+    display:grid;place-items:center;font-family:"Fraunces";font-size:15px;color:#0E1410;font-weight:500;
+    background:linear-gradient(135deg,var(--gold-hi),var(--gold-dim));
+  }
+  .who .nm{font-weight:500;font-size:14.5px}
+  .who .ph{font-size:11.5px;color:var(--muted-2);letter-spacing:.02em}
+
+  .tag{font-size:10px;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:999px;font-weight:600;display:inline-block;white-space:nowrap}
+  .tag.current{background:rgba(156,174,118,.14);color:var(--good);border:1px solid rgba(156,174,118,.25)}
+  .tag.risk{background:rgba(201,162,75,.14);color:#E4C77E;border:1px solid rgba(201,162,75,.28)}
+  .tag.default{background:rgba(196,106,87,.14);color:var(--danger);border:1px solid rgba(196,106,87,.3)}
+  .tag.paid{background:rgba(156,174,118,.12);color:var(--good)}
+  .tag.due{background:rgba(196,106,87,.12);color:var(--danger)}
+
+  .money{font-variant-numeric:tabular-nums;font-weight:500}
+  .money.gold{color:var(--gold-hi)}
+  .money.up{color:var(--good)}
+  .money.down{color:var(--danger)}
+  .sub{font-size:11.5px;color:var(--muted-2)}
+
+  .two-col{display:grid;grid-template-columns:1fr;gap:22px}
+  @media(min-width:900px){.two-col{grid-template-columns:1.3fr .9fr}}
+  .bars{display:grid;gap:14px;padding:22px}
+  .bar-row{display:grid;grid-template-columns:120px 1fr auto;align-items:center;gap:14px;font-size:13px}
+  .bar-track{height:8px;background:var(--bg-2);border-radius:999px;overflow:hidden;border:1px solid var(--line-soft)}
+  .bar-fill{height:100%;background:linear-gradient(90deg,var(--gold-dim),var(--gold-hi));border-radius:999px;transition:width .8s cubic-bezier(.2,.7,.2,1)}
+  .bar-fill.rust{background:linear-gradient(90deg,#6d3529,var(--danger))}
+
+  .donut-wrap{display:flex;align-items:center;gap:24px;padding:24px}
+  .legend{display:grid;gap:12px}
+  .legend-item{display:flex;align-items:center;gap:10px;font-size:13px}
+  .dot{width:10px;height:10px;border-radius:3px}
+  .legend-item .lv{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+
+  /* toolbar / search */
+  .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;margin-bottom:22px}
+  .search{flex:1;min-width:200px;position:relative}
+  .search input{
+    width:100%;background:var(--surface);border:1px solid var(--line);border-radius:999px;
+    color:var(--ivory);padding:12px 18px 12px 42px;font-family:"Inter";font-size:13.5px;
+  }
+  .search input:focus{outline:none;border-color:var(--gold-dim)}
+  .search svg{position:absolute;left:16px;top:50%;transform:translateY(-50%);opacity:.5}
+  .filter-toggle{display:flex;gap:2px;background:var(--bg-2);padding:5px;border-radius:999px;border:1px solid var(--line-soft)}
+  .ft{border:none;background:transparent;color:var(--muted);font-size:11px;letter-spacing:.06em;padding:8px 16px;border-radius:999px;cursor:pointer;text-transform:uppercase;font-family:"Inter";font-weight:500;transition:.2s}
+  .ft.on{background:var(--surface-2);color:var(--gold-hi)}
+
+  .notice{display:flex;gap:14px;align-items:flex-start;padding:16px 20px;border-radius:12px;background:rgba(196,106,87,.08);border:1px solid var(--danger-dim);font-size:13px;color:#e6b3a6}
+  .notice.gold{background:rgba(95,168,120,.08);border-color:var(--gold-dim);color:#CBDFBA}
+  .notice svg{flex-shrink:0;margin-top:1px}
+
+  /* ---------- modal ---------- */
+  .modal-bg{position:fixed;inset:0;z-index:60;background:rgba(6,8,5,.7);backdrop-filter:blur(6px);display:none;place-items:center;padding:24px}
+  .modal-bg.open{display:grid}
+  .modal{width:100%;max-width:460px;background:var(--surface);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow);animation:modalIn .4s cubic-bezier(.2,.7,.2,1);overflow:hidden}
+  @keyframes modalIn{from{opacity:0;transform:translateY(18px) scale(.98)}to{opacity:1;transform:none}}
+  .modal-head{padding:24px 26px 6px}
+  .modal-head h3{font-size:22px;font-weight:400}
+  .modal-head p{font-size:13px;color:var(--muted);margin-top:4px}
+  .modal-body{padding:16px 26px 8px;display:grid;gap:16px}
+  .field label{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted-2);margin-bottom:7px}
+  .field input,.field select{
+    width:100%;background:var(--bg-2);border:1px solid var(--line);border-radius:10px;
+    color:var(--ivory);padding:12px 14px;font-family:"Inter";font-size:14px;
+  }
+  .field input:focus,.field select:focus{outline:none;border-color:var(--gold-dim)}
+  .modal-foot{padding:18px 26px 24px;display:flex;gap:12px;justify-content:flex-end}
+  .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+  .empty{padding:60px 20px;text-align:center;color:var(--muted-2)}
+  .empty .serif{font-size:22px;color:var(--muted);display:block;margin-bottom:8px}
+
+  /* ---------- agent ---------- */
+  .agent-fab{
+    position:fixed;right:28px;bottom:28px;z-index:50;
+    width:56px;height:56px;border-radius:50%;
+    background:linear-gradient(160deg,var(--surface-2),var(--bg-2));
+    border:1px solid var(--gold-dim);
+    display:grid;place-items:center;cursor:pointer;
+    box-shadow:var(--shadow);transition:.25s;color:var(--gold-hi);
+  }
+  .agent-fab:hover{border-color:var(--gold);background:var(--surface);transform:translateY(-2px)}
+  .agent-fab svg{width:27px;height:27px}
+  .modal.wide{max-width:640px}
+  .agent-log{max-height:320px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;padding:2px}
+  .agent-msg{padding:10px 14px;font-size:13.5px;line-height:1.5;max-width:88%}
+  .agent-msg.user{align-self:flex-end;background:var(--gold);color:#0E1410;border-radius:14px 14px 3px 14px}
+  .agent-msg.agent{align-self:flex-start;background:var(--bg-2);border:1px solid var(--line-soft);color:var(--ivory);border-radius:14px 14px 14px 3px}
+  .agent-msg.agent.err{border-color:var(--danger-dim);color:#e6b3a6}
+  .agent-examples{font-size:11.5px;color:var(--muted-2)}
+  .agent-input-row{display:flex;gap:10px;margin-top:4px}
+  .agent-input-row input{
+    flex:1;background:var(--bg-2);border:1px solid var(--line);border-radius:999px;
+    color:var(--ivory);padding:12px 16px;font-family:"Inter";font-size:13.5px;
+  }
+  .agent-input-row input:focus{outline:none;border-color:var(--gold-dim)}
+
+  /* toast */
+  #toast{position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(20px);z-index:80;background:var(--surface-2);border:1px solid var(--gold-dim);color:var(--ivory);padding:14px 24px;border-radius:999px;font-size:13px;box-shadow:var(--shadow);opacity:0;transition:.4s;pointer-events:none;letter-spacing:.02em}
+  #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+  #toast b{color:var(--gold-hi)}
+
+  footer.foot{text-align:center;padding:28px;color:var(--muted-2);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;border-top:1px solid var(--line-soft)}
+
+  /* ---------- print report ---------- */
+  #printReport{display:none}
+  @media print{
+    body{background:#fff;color:#000}
+    #splash,header.topbar,nav.tabs,.toolbar,.btn,#toast,footer.foot,.modal-bg{display:none !important}
+    main,.view{display:none !important}
+    #printReport{display:block !important;padding:0;color:#000;font-family:"Inter",sans-serif}
+    #printReport h1{font-family:"Fraunces",serif;font-size:30px;color:#111}
+    #printReport table{width:100%;border-collapse:collapse;margin-top:16px}
+    #printReport th,#printReport td{border-bottom:1px solid #ccc;padding:8px 10px;text-align:left;font-size:12px}
+    #printReport th.r,#printReport td.r{text-align:right}
+    #printReport .pr-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:18px 0}
+    #printReport .pr-stat{border:1px solid #ddd;border-radius:8px;padding:12px}
+    #printReport .pr-stat .k{font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#666}
+    #printReport .pr-stat .v{font-family:"Fraunces";font-size:20px;margin-top:6px}
+    #printReport .pr-head{border-bottom:3px solid #3F7355;padding-bottom:12px;display:flex;justify-content:space-between;align-items:flex-end}
+  }
+
+  @media(max-width:720px){
+    header.topbar{flex-wrap:wrap;gap:14px;padding:14px 18px}
+    nav.tabs{margin-left:0;order:3;width:100%;justify-content:center}
+    .cycle-chip{order:2;margin-left:auto}
+    main{padding:26px 18px 80px}
+    .view-head h1{font-size:26px}
+    td,th{padding:12px 14px}
+    .hide-sm{display:none}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *{animation-duration:.01ms !important;transition-duration:.01ms !important}
+    .splash-line{width:220px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ==================== SPLASH ==================== -->
+<div id="splash">
+  <div class="splash-inner">
+    <div class="emblem-wrap" id="splashEmblem"></div>
+    <div class="splash-word fade-item d1 serif">SIMBA <b>WOMEN</b></div>
+    <div class="splash-kicker fade-item d2">Umoja · Akiba · Nguvu</div>
+    <div class="splash-sub fade-item d2">Savings &amp; Credit Cooperative — Nairobi</div>
+    <div class="splash-line"></div>
+    <button class="enter-btn" onclick="enterApp()">Enter the cooperative</button>
+  </div>
+</div>
+
+<!-- ==================== APP ==================== -->
+<div id="app">
+  <header class="topbar">
+    <div class="brand">
+      <span id="headerEmblem"></span>
+      <span class="wm">
+        <span class="n">SIMBA <b>WOMEN</b></span>
+        <span class="t">Savings &amp; Credit Co-op</span>
+      </span>
+    </div>
+    <nav class="tabs">
+      <button class="tab active" data-view="loans" onclick="switchView('loans')">Loans</button>
+      <button class="tab" data-view="sengo" onclick="switchView('sengo')">Sengo</button>
+      <button class="tab" data-view="records" onclick="switchView('records')">Records</button>
+    </nav>
+    <div class="cycle-chip">Cycle <b id="cycleLabel">Month 8</b></div>
+  </header>
+
+  <main>
+    <!-- ============ LOANS ============ -->
+    <section class="view active" id="view-loans">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Credit</span>
+          <h1>The <span class="accent">loan book</span></h1>
+          <p class="lede">Interest is 20% of the balance every 30-day cycle. Whatever's left unpaid — partial or missed entirely — carries forward flat onto the next cycle's due. Two missed cycles marks a member as defaulted — deposits and dividends stop.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="openLoanModal()">＋ Issue loan</button>
+          <button class="btn btn-gold" onclick="advanceCycle()">Close month · advance cycle →</button>
+        </div>
+      </div>
+      <div class="rule"></div>
+
+      <div class="stat-grid" style="margin-bottom:28px" id="loanStats"></div>
+
+      <div id="defaulterNotice" style="margin-bottom:24px"></div>
+
+      <!-- collections this month -->
+      <div class="panel" style="margin-bottom:26px">
+        <div class="panel-head">
+          <div>
+            <span class="eyebrow">Repayments</span>
+            <h3>Due this cycle</h3>
+          </div>
+          <span class="sub">Minimum = this cycle's interest. Pay it to keep the balance from growing.</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr>
+              <th>Member</th><th class="r">Balance owed</th><th class="r">Due this cycle</th>
+              <th class="hide-sm">Status</th><th class="r">Record</th>
+            </tr></thead>
+            <tbody id="collectionsBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- full loan list -->
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <span class="eyebrow">Portfolio</span>
+            <h3>Everyone with a loan</h3>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr>
+              <th>Member</th><th class="r">Principal</th><th class="r hide-sm">Cycles</th>
+              <th class="r">Balance</th><th class="r hide-sm">Rate</th><th>Status</th>
+            </tr></thead>
+            <tbody id="loanListBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SENGO ============ -->
+    <section class="view" id="view-sengo">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Savings</span>
+          <h1>Sengo — the <span class="accent">shared pot</span></h1>
+          <p class="lede">Every member's savings build their share of the year-end dividend. Members who have defaulted can't deposit until they're cleared.</p>
+        </div>
+        <button class="btn btn-gold" onclick="openDepositModal()">＋ Record deposit</button>
+      </div>
+      <div class="rule"></div>
+
+      <div class="stat-grid" style="margin-bottom:28px" id="sengoStats"></div>
+
+      <div class="two-col">
+        <div class="panel">
+          <div class="panel-head">
+            <div><span class="eyebrow">Ledger</span><h3>Member savings</h3></div>
+            <span class="sub" id="sengoContribNote"></span>
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr>
+                <th>Member</th><th class="r">Savings</th><th class="r hide-sm">Share of pot</th>
+                <th class="r">Manage</th>
+              </tr></thead>
+              <tbody id="sengoBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel" style="align-self:start">
+          <div class="panel-head"><div><span class="eyebrow">Distribution</span><h3>Top savers</h3></div></div>
+          <div class="bars" id="topSavers"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ RECORDS ============ -->
+    <section class="view" id="view-records">
+      <div class="view-head">
+        <div>
+          <span class="eyebrow">Registry &amp; Reporting</span>
+          <h1>How the <span class="accent">chama</span> is doing</h1>
+          <p class="lede">The full membership, live analytics, and the year-end dividend — every shilling of interest returned to members in good standing.</p>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-ghost" onclick="openMemberModal()">＋ Register member</button>
+          <button class="btn btn-quiet" onclick="printReport()">⎙ Print report</button>
+          <button class="btn btn-gold" onclick="openMonthReportModal()">🗓 Month report (PDF)</button>
+          <button class="btn btn-quiet" onclick="exportBackup()">⬇ Backup</button>
+          <button class="btn btn-quiet" onclick="document.getElementById('restoreFile').click()">⬆ Restore</button>
+          <input type="file" id="restoreFile" accept=".json,application/json" style="display:none" onchange="importBackup(this)" />
+        </div>
+      </div>
+      <div class="rule"></div>
+
+      <div class="stat-grid" style="margin-bottom:28px" id="recordStats"></div>
+
+      <div class="two-col" style="margin-bottom:26px">
+        <div class="panel">
+          <div class="panel-head"><div><span class="eyebrow">Analytics</span><h3>Savings by member</h3></div></div>
+          <div class="bars" id="analyticsBars"></div>
+        </div>
+        <div class="panel" style="align-self:start">
+          <div class="panel-head"><div><span class="eyebrow">Analytics</span><h3>Membership standing</h3></div></div>
+          <div class="donut-wrap" id="standingDonut"></div>
+        </div>
+      </div>
+
+      <!-- year end -->
+      <div class="panel" style="margin-bottom:26px">
+        <div class="panel-head">
+          <div><span class="eyebrow">Year-end</span><h3>Dividend distribution</h3></div>
+          <span class="sub">Two separate pots, split evenly among members who clear their group's interest-paid threshold.</span>
+        </div>
+        <div style="padding:22px">
+          <div class="notice gold" style="margin-bottom:20px">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+            <span id="dividendSummary"></span>
+          </div>
+          <div style="overflow-x:auto">
+            <table>
+              <thead><tr>
+                <th>Member</th><th class="r hide-sm">Group</th><th class="r">Interest paid</th>
+                <th class="r">Dividend</th><th>Eligibility</th>
+              </tr></thead>
+              <tbody id="dividendBody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- registry -->
+      <div class="panel">
+        <div class="panel-head">
+          <div><span class="eyebrow">Registry</span><h3>Registered members</h3></div>
+        </div>
+        <div class="toolbar" style="padding:18px 22px 4px;margin-bottom:0">
+          <div class="search">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></svg>
+            <input id="memberSearch" placeholder="Search members…" oninput="renderRecords()"/>
+          </div>
+          <div class="filter-toggle" id="memberFilter">
+            <button class="ft on" data-f="all" onclick="setMemberFilter('all')">All</button>
+            <button class="ft" data-f="loan" onclick="setMemberFilter('loan')">With loans</button>
+            <button class="ft" data-f="default" onclick="setMemberFilter('default')">Defaulted</button>
+          </div>
+        </div>
+        <div style="overflow-x:auto">
+          <table>
+            <thead><tr>
+              <th>Member</th><th class="hide-sm">Joined</th><th class="r">Savings</th>
+              <th class="r hide-sm">Loan balance</th><th>Standing</th><th class="r">Actions</th>
+            </tr></thead>
+            <tbody id="registryBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">SIMBA WOMEN · Umoja · Akiba · Nguvu · Nairobi</footer>
+</div>
+
+<!-- printable report target -->
+<div id="printReport"></div>
+
+<!-- ==================== MODALS ==================== -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modalContent"></div>
+</div>
+
+<div id="toast"></div>
+
+<!-- ==================== AGENT ==================== -->
+<button id="agentFab" class="agent-fab" onclick="openAgentModal()" title="Tell the agent what happened" aria-label="Open agent">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M3.5 18c-.6 0-1-.5-.9-1.1.3-1.5 1.4-2.7 2.9-3l3.6-.8c.6-2.7 2.4-5 4.9-6.2l3-1.4c1-.5 2.2.3 2.2 1.4v2.9c0 1-.7 1.9-1.7 2.1l-1.2.3-.7 3c-.4 1.7-1.9 2.9-3.6 2.9H3.5z"/>
+    <path d="M15.6 10.9l3 8c.2.6-.2 1.3-.9 1.3h-.9c-.5 0-1-.3-1.1-.8l-2-6.7"/>
+    <path d="M9.9 12.7l3.4-.9"/>
+  </svg>
+</button>
+
+<script>
+/* =====================================================================
+   SIMBA WOMEN — data + logic
+   ===================================================================== */
+const CUR = 'Ksh';
+const money = n => CUR + ' ' + Math.round(n).toLocaleString('en-KE');
+const BASE_RATE = 0.20;      // 20% per 30-day cycle, always — unpaid interest carries forward flat (see arrears) rather than compounding at a penalty rate
+const MISS_LIMIT = 2;        // missed cycles before auto-default
+const GROUP_A_THRESHOLD = 20000;  // rows 1-26: must clear this in interest paid to share group A's pot
+const GROUP_B_THRESHOLD = 5000;   // rows 27+: must clear this in interest paid to share group B's pot
+
+let state = {
+  cycle: 8,
+  interestPool: 0,   // accumulated interest earned by the co-op (the dividend pool)
+  members: [],
+  memberFilter: 'all'
+};
+
+/* ---- membership — starts empty; add members via the app UI ---- */
+function seed(){
+  const mk = (name, phone, joined, savings, interestPaid, loan, defaulter, reason) => ({
+    id: crypto.randomUUID(), name, phone, joined, savings, interestPaid,
+    txns: [], loan, defaulter: !!defaulter, reason: reason||null
+  });
+  const loan = (principal, cycles, balance, paidThisCycle, missed, arrears) =>
+    ({ principal, cycles, balance, paidThisCycle, missed: missed||0, arrears: arrears||0 });
+
+  // No members pre-loaded — add your group's members through the app.
+  state.members = [];
+
+  // membership tiers for year-end dividend splitting — see computeDividends()
+  state.members.forEach((m,i)=>{ m.group = i < 26 ? 'A' : 'B'; });
+  // dividend pool = total interest actually paid in by members this year
+  state.interestPool = state.members.reduce((s,m)=>s+(m.interestPaid||0), 0);
+}
+seed();
+
+/* =====================================================================
+   PERSISTENCE — auto-saves every change to this device (localStorage).
+   Data survives refresh, phone restart, and going offline.
+   ===================================================================== */
+const STORE_KEY = 'simba-women-sacco-v1';
+
+function saveState(){
+  try{
+    localStorage.setItem(STORE_KEY, JSON.stringify({
+      cycle: state.cycle,
+      interestPool: state.interestPool,
+      members: state.members
+    }));
+  }catch(e){ /* storage unavailable/full — app keeps working in memory */ }
+}
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORE_KEY);
+    if(!raw) return false;
+    const saved = JSON.parse(raw);
+    if(!saved || !Array.isArray(saved.members)) return false;
+    state.cycle = saved.cycle || state.cycle;
+    state.interestPool = saved.interestPool || 0;
+    state.members = saved.members;
+    return true;
+  }catch(e){ return false; }
+}
+
+// restore previous session (if any), then sync the cycle label in the header
+if(loadState()){
+  const lbl = document.getElementById('cycleLabel');
+  if(lbl) lbl.textContent = 'Month ' + state.cycle;
+}
+
+/* ---- backup to file / restore from file ----
+   One tap downloads the entire books as a JSON file (keep it, email it,
+   move to a new phone). Restore replaces the current books with a backup. */
+function exportBackup(){
+  const payload = {
+    app: 'simba-women-sacco',
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    cycle: state.cycle,
+    interestPool: state.interestPool,
+    members: state.members
+  };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  const d = new Date();
+  const stamp = d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'simba-women-backup-' + stamp + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 5000);
+  toast('Backup downloaded — <b>keep this file safe</b>');
+}
+
+function importBackup(input){
+  const file = input.files && input.files[0];
+  input.value = ''; // allow re-selecting the same file later
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try{
+      const data = JSON.parse(reader.result);
+      if(!data || data.app !== 'simba-women-sacco' || !Array.isArray(data.members)){
+        toast('That file is not a valid Simba Women backup'); return;
+      }
+      const ok = confirm(
+        'Restore backup from ' + (data.exportedAt ? data.exportedAt.slice(0,10) : 'unknown date') +
+        ' with ' + data.members.length + ' members?\n\nThis REPLACES everything currently in the app.'
+      );
+      if(!ok) return;
+      state.cycle = data.cycle || 1;
+      state.interestPool = data.interestPool || 0;
+      state.members = data.members;
+      const lbl = document.getElementById('cycleLabel');
+      if(lbl) lbl.textContent = 'Month ' + state.cycle;
+      renderAll(); // renderAll also saves to localStorage
+      toast('Backup restored — <b>' + data.members.length + ' members</b> loaded');
+    }catch(e){
+      toast('Could not read that file — is it a backup from this app?');
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ---- derived helpers ---- */
+const initials = n => n.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
+const withLoans = () => state.members.filter(m=>m.loan);
+const totalSavings = () => state.members.reduce((s,m)=>s+m.savings,0);
+const totalOutstanding = () => withLoans().reduce((s,m)=>s+m.loan.balance,0);
+const totalPrincipal = () => withLoans().reduce((s,m)=>s+m.loan.principal,0);
+const defaulters = () => state.members.filter(m=>m.defaulter);
+const eligible = () => state.members.filter(m=>!m.defaulter);
+
+// Year-end dividend: rows 1-26 (group A) and rows 27+ (group B) each pool the
+// interest their whole group paid in, then split it evenly across only the
+// group's own members who cleared that group's interest-paid threshold.
+function dividendQualifies(m){
+  if(m.defaulter) return false;
+  return m.group==='A' ? (m.interestPaid||0) > GROUP_A_THRESHOLD : (m.interestPaid||0) >= GROUP_B_THRESHOLD;
+}
+function computeDividends(){
+  const groupA = state.members.filter(m=>m.group==='A');
+  const groupB = state.members.filter(m=>m.group==='B');
+  const poolA = groupA.reduce((s,m)=>s+(m.interestPaid||0),0);
+  const poolB = groupB.reduce((s,m)=>s+(m.interestPaid||0),0);
+  const eligA = groupA.filter(dividendQualifies);
+  const eligB = groupB.filter(dividendQualifies);
+  const perA = eligA.length ? poolA/eligA.length : 0;
+  const perB = eligB.length ? poolB/eligB.length : 0;
+  return { groupA, groupB, poolA, poolB, eligA, eligB, perA, perB };
+}
+
+// The rate is always the base 20% — the co-op's real records show unpaid
+// interest (whether from a partial payment or a fully missed cycle) simply
+// carries forward flat onto the next cycle's due, never a compounding penalty rate.
+function loanRate(m){ return BASE_RATE; }
+// Due = this cycle's interest on the balance, plus any unpaid interest carried
+// forward flat from a previous cycle (partial or fully missed — see recordRepayment/advanceCycle).
+function dueThisCycle(m){ return m.loan ? Math.round(m.loan.balance * loanRate(m)) + (m.loan.arrears||0) : 0; }
+function loanStatus(m){
+  if(m.defaulter) return 'default';
+  if(m.loan && !m.loan.paidThisCycle) return 'risk';
+  return 'current';
+}
+
+/* =====================================================================
+   RENDERING
+   ===================================================================== */
+function statCard({k,v,unit,foot,accent}){
+  return `<div class="stat ${accent?'accent':''}">
+    <div class="k">${k}</div>
+    <div class="v num">${v}${unit?`<small> ${unit}</small>`:''}</div>
+    ${foot?`<div class="foot">${foot}</div>`:''}
+  </div>`;
+}
+
+function avatar(name){ return `<span class="avatar">${initials(name)}</span>`; }
+function who(m){
+  return `<div class="who">${avatar(m.name)}<div><div class="nm">${m.name}</div><div class="ph num">${m.phone}</div></div></div>`;
+}
+
+/* ---------------- LOANS ---------------- */
+function renderLoans(){
+  const loans = withLoans();
+  const atRisk = loans.filter(m=>loanStatus(m)==='risk').length;
+
+  document.getElementById('loanStats').innerHTML =
+    statCard({k:'Active loans', v:loans.length, foot:`${money(totalPrincipal())} lent out`}) +
+    statCard({k:'Outstanding balance', v:money(totalOutstanding()), accent:true, foot:`${money(totalOutstanding()-totalPrincipal())} of it is interest`}) +
+    statCard({k:'At risk this cycle', v:atRisk, foot:atRisk?'Unpaid — carries to next cycle':'All current'}) +
+    statCard({k:'Defaulted', v:defaulters().filter(m=>m.reason==='loan').length, foot:'Deposits & dividends frozen'});
+
+  // defaulter banner
+  const dfl = defaulters().filter(m=>m.reason==='loan');
+  document.getElementById('defaulterNotice').innerHTML = dfl.length ? `
+    <div class="notice">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0z"/></svg>
+      <span><b>${dfl.map(m=>m.name).join(', ')}</b> ${dfl.length>1?'have':'has'} defaulted on loan repayment. They can no longer deposit into Sengo and are excluded from the year-end dividend until cleared.</span>
+    </div>` : '';
+
+  // collections due this cycle
+  const cb = document.getElementById('collectionsBody');
+  if(!loans.length){ cb.innerHTML = emptyRow(5,'No active loans'); }
+  else cb.innerHTML = loans.map(m=>{
+    const due = dueThisCycle(m);
+    const st = loanStatus(m);
+    const paid = m.loan.paidThisCycle;
+    return `<tr class="${m.defaulter?'defaulter':''}">
+      <td>${who(m)}</td>
+      <td class="r money">${money(m.loan.balance)}</td>
+      <td class="r money ${st==='risk'?'down':'gold'}">${money(due)} <span class="sub">@${Math.round(loanRate(m)*100)}%${m.loan.arrears?' +carry':''}</span></td>
+      <td class="hide-sm">${paid?'<span class="tag paid">Paid this cycle</span>':'<span class="tag due">Not yet paid</span>'}</td>
+      <td class="r"><button class="btn btn-ghost btn-sm" onclick="openRepayModal('${m.id}')">Repay</button></td>
+    </tr>`;
+  }).join('');
+
+  // full portfolio
+  const lb = document.getElementById('loanListBody');
+  lb.innerHTML = loans.map(m=>{
+    const st = loanStatus(m);
+    const tag = {current:'<span class="tag current">Current</span>',risk:'<span class="tag risk">At risk</span>',default:'<span class="tag default">Defaulted</span>'}[st];
+    return `<tr class="${m.defaulter?'defaulter':''}">
+      <td>${who(m)}</td>
+      <td class="r money">${money(m.loan.principal)}</td>
+      <td class="r hide-sm num">${m.loan.cycles}</td>
+      <td class="r money gold">${money(m.loan.balance)}</td>
+      <td class="r hide-sm num">${Math.round(loanRate(m)*100)}%</td>
+      <td>${tag}</td>
+    </tr>`;
+  }).join('');
+}
+
+/* ---------------- SENGO ---------------- */
+function renderSengo(){
+  const pot = totalSavings();
+  const active = state.members.filter(m=>!m.defaulter);
+  const avg = pot / state.members.length;
+
+  document.getElementById('sengoStats').innerHTML =
+    statCard({k:'Total in Sengo', v:money(pot), accent:true, foot:`${state.members.length} members`}) +
+    statCard({k:'Average savings', v:money(avg), foot:'Per member'}) +
+    statCard({k:'Depositing members', v:active.length, foot:`${defaulters().length} frozen`}) +
+    statCard({k:'Dividend pool', v:money(state.interestPool), foot:'Interest to share at year-end'});
+
+  document.getElementById('sengoContribNote').textContent = 'Sorted by balance';
+
+  const sorted = [...state.members].sort((a,b)=>b.savings-a.savings);
+  document.getElementById('sengoBody').innerHTML = sorted.map(m=>{
+    const share = pot? (m.savings/pot*100):0;
+    return `<tr class="${m.defaulter?'defaulter':''}">
+      <td>${who(m)}${m.defaulter?` <span class="tag default" style="margin-left:6px">Frozen</span>`:''}</td>
+      <td class="r money gold">${money(m.savings)}</td>
+      <td class="r hide-sm num">${share.toFixed(1)}%</td>
+      <td class="r" style="white-space:nowrap">
+        <button class="btn btn-ghost btn-sm" onclick="openDepositModal('${m.id}')" ${m.defaulter?'disabled title="Defaulted — deposits frozen"':''}>Deposit</button>
+        <button class="btn btn-quiet btn-sm" onclick="openWithdrawModal('${m.id}')">Withdraw</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // top savers bars
+  const top = sorted.slice(0,6);
+  const max = top[0]?.savings||1;
+  document.getElementById('topSavers').innerHTML = top.map(m=>`
+    <div class="bar-row">
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.name}</span>
+      <div class="bar-track"><div class="bar-fill" style="width:${(m.savings/max*100)}%"></div></div>
+      <span class="money num" style="min-width:74px;text-align:right">${money(m.savings)}</span>
+    </div>`).join('');
+}
+
+/* ---------------- RECORDS ---------------- */
+function renderRecords(){
+  const pot = totalSavings();
+
+  document.getElementById('recordStats').innerHTML =
+    statCard({k:'Members', v:state.members.length, foot:`${eligible().length} in good standing`}) +
+    statCard({k:'Total savings', v:money(pot), accent:true, foot:'Held in Sengo'}) +
+    statCard({k:'Loans outstanding', v:money(totalOutstanding()), foot:`${withLoans().length} active`}) +
+    statCard({k:'Interest earned', v:money(state.interestPool), foot:'Dividend pool'});
+
+  // analytics bars — savings by member
+  const sorted = [...state.members].sort((a,b)=>b.savings-a.savings);
+  const max = sorted[0]?.savings||1;
+  document.getElementById('analyticsBars').innerHTML = sorted.map(m=>`
+    <div class="bar-row">
+      <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${m.name.split(' ')[0]} ${m.name.split(' ')[1]?.[0]||''}.</span>
+      <div class="bar-track"><div class="bar-fill ${m.defaulter?'rust':''}" style="width:${(m.savings/max*100)}%"></div></div>
+      <span class="money num" style="min-width:74px;text-align:right">${money(m.savings)}</span>
+    </div>`).join('');
+
+  // standing donut
+  const current = state.members.filter(m=>!m.defaulter && !m.loan).length;
+  const borrowers = state.members.filter(m=>!m.defaulter && m.loan).length;
+  const def = defaulters().length;
+  renderDonut([
+    {label:'Savers in good standing', value:current, color:'var(--good)'},
+    {label:'Active borrowers', value:borrowers, color:'var(--gold)'},
+    {label:'Defaulted', value:def, color:'var(--danger)'},
+  ]);
+
+  renderDividends();
+  renderRegistry();
+}
+
+function renderDonut(data){
+  const total = data.reduce((s,d)=>s+d.value,0)||1;
+  const R=52, C=2*Math.PI*R; let off=0;
+  const segs = data.map(d=>{
+    const len = d.value/total*C;
+    const s = `<circle cx="70" cy="70" r="${R}" fill="none" stroke="${d.color}" stroke-width="16" stroke-dasharray="${len} ${C-len}" stroke-dashoffset="${-off}" transform="rotate(-90 70 70)" stroke-linecap="butt"/>`;
+    off += len; return s;
+  }).join('');
+  document.getElementById('standingDonut').innerHTML = `
+    <svg width="140" height="140" viewBox="0 0 140 140">
+      <circle cx="70" cy="70" r="${R}" fill="none" stroke="var(--bg-2)" stroke-width="16"/>
+      ${segs}
+      <text x="70" y="66" text-anchor="middle" fill="var(--ivory)" font-family="Fraunces" font-size="26">${total}</text>
+      <text x="70" y="84" text-anchor="middle" fill="var(--muted-2)" font-size="9" letter-spacing="2">MEMBERS</text>
+    </svg>
+    <div class="legend">
+      ${data.map(d=>`<div class="legend-item"><span class="dot" style="background:${d.color}"></span>${d.label}<span class="lv num">${d.value}</span></div>`).join('')}
+    </div>`;
+}
+
+function renderDividends(){
+  const {poolA, poolB, eligA, eligB, perA, perB} = computeDividends();
+
+  document.getElementById('dividendSummary').innerHTML =
+    `Group A (rows 1–26): <b>${money(poolA)}</b> pooled, split evenly across <b>${eligA.length}</b> member${eligA.length===1?'':'s'} who paid over ${money(GROUP_A_THRESHOLD)} in interest — <b>${money(perA)}</b> each. ` +
+    `Group B (rows 27+): <b>${money(poolB)}</b> pooled, split evenly across <b>${eligB.length}</b> member${eligB.length===1?'':'s'} who paid ${money(GROUP_B_THRESHOLD)} or more — <b>${money(perB)}</b> each.`;
+
+  const rows = [...state.members]
+    .sort((a,b)=> a.group===b.group ? (b.interestPaid||0)-(a.interestPaid||0) : a.group.localeCompare(b.group))
+    .map(m=>{
+      const div = m.group==='A' ? perA : perB;
+      const qualifies = dividendQualifies(m);
+      if(m.defaulter){
+        return `<tr class="defaulter">
+          <td>${who(m)}</td>
+          <td class="r hide-sm">Group ${m.group}</td>
+          <td class="r money">${money(m.interestPaid||0)}</td>
+          <td class="r money down">Ksh 0</td>
+          <td><span class="tag default">Excluded · ${m.reason}</span></td>
+        </tr>`;
+      }
+      if(!qualifies){
+        return `<tr>
+          <td>${who(m)}</td>
+          <td class="r hide-sm">Group ${m.group}</td>
+          <td class="r money">${money(m.interestPaid||0)}</td>
+          <td class="r money down">Ksh 0</td>
+          <td><span class="tag risk">Below threshold</span></td>
+        </tr>`;
+      }
+      return `<tr>
+        <td>${who(m)}</td>
+        <td class="r hide-sm">Group ${m.group}</td>
+        <td class="r money">${money(m.interestPaid||0)}</td>
+        <td class="r money up">+ ${money(div)}</td>
+        <td><span class="tag current">Eligible</span></td>
+      </tr>`;
+    }).join('');
+  document.getElementById('dividendBody').innerHTML = rows;
+}
+
+function setMemberFilter(f){
+  state.memberFilter=f;
+  document.querySelectorAll('#memberFilter .ft').forEach(b=>b.classList.toggle('on',b.dataset.f===f));
+  renderRegistry();
+}
+
+function renderRegistry(){
+  const q = (document.getElementById('memberSearch')?.value||'').toLowerCase();
+  let list = state.members.filter(m=>m.name.toLowerCase().includes(q)||m.phone.includes(q));
+  if(state.memberFilter==='loan') list=list.filter(m=>m.loan);
+  if(state.memberFilter==='default') list=list.filter(m=>m.defaulter);
+
+  const body = document.getElementById('registryBody');
+  if(!list.length){ body.innerHTML = emptyRow(6,'No members match'); return; }
+
+  body.innerHTML = list.map(m=>{
+    const standing = m.defaulter
+      ? `<span class="tag default">Defaulted · ${m.reason}</span>`
+      : m.loan ? `<span class="tag risk">Borrower</span>` : `<span class="tag current">Good standing</span>`;
+    const flagBtn = m.defaulter
+      ? `<button class="btn btn-quiet btn-sm" onclick="clearDefault('${m.id}')">Clear</button>`
+      : `<button class="btn btn-danger btn-sm" onclick="flagDefault('${m.id}')">Flag</button>`;
+    return `<tr class="${m.defaulter?'defaulter':''}">
+      <td>${who(m)}</td>
+      <td class="hide-sm sub num">${m.joined}</td>
+      <td class="r money gold">${money(m.savings)}</td>
+      <td class="r hide-sm money">${m.loan?money(m.loan.balance):'—'}</td>
+      <td>${standing}</td>
+      <td class="r">${flagBtn}</td>
+    </tr>`;
+  }).join('');
+}
+
+function emptyRow(cols,msg){
+  return `<tr><td colspan="${cols}"><div class="empty"><span class="serif">${msg}</span></div></td></tr>`;
+}
+
+/* =====================================================================
+   ACTIONS
+   ===================================================================== */
+function advanceCycle(){
+  let flagged = [];
+  state.members.forEach(m=>{
+    if(!m.loan || m.defaulter) return;
+    if(!m.loan.paidThisCycle){
+      // paid nothing this cycle: the balance itself is untouched — this
+      // cycle's whole due (base interest + any prior arrears) simply
+      // becomes next cycle's arrears, same flat carry-forward as a partial payment
+      m.loan.arrears = dueThisCycle(m);
+      m.loan.missed += 1;
+      if(m.loan.missed >= MISS_LIMIT){ m.defaulter=true; m.reason='loan'; flagged.push(m.name); }
+    }
+    m.loan.cycles += 1;
+    m.loan.paidThisCycle = false; // reset for the new cycle
+  });
+  state.cycle += 1;
+  document.getElementById('cycleLabel').textContent = 'Month '+state.cycle;
+  renderAll();
+  toast(flagged.length
+    ? `Cycle advanced · <b>${flagged.join(', ')}</b> defaulted`
+    : `Cycle advanced to <b>Month ${state.cycle}</b> · interest applied`);
+}
+
+function recordRepayment(id, amount){
+  const m = state.members.find(x=>x.id===id); if(!m||!m.loan) return;
+  const due = dueThisCycle(m);
+  amount = Math.min(amount, due + m.loan.balance);
+
+  const interestPortion = Math.min(amount, due);
+  m.interestPaid = (m.interestPaid||0) + interestPortion;
+  state.interestPool += interestPortion;
+
+  if(interestPortion < due){
+    // paid something, but short of this cycle's interest — carry the
+    // shortfall forward flat onto next cycle's due, balance untouched
+    m.loan.arrears = due - interestPortion;
+  } else {
+    m.loan.arrears = 0;
+    m.loan.balance -= (amount - interestPortion); // any excess pays down principal
+  }
+  m.loan.paidThisCycle = true;
+  m.loan.missed = 0;
+  m.txns.push({type:'repayment', amount, interest:interestPortion, cycle:state.cycle});
+
+  if(m.loan.balance <= 0){
+    toast(`<b>${m.name}</b> has cleared the loan 🎉`);
+    m.loan = null;
+  } else if(interestPortion < due){
+    toast(`Recorded <b>${money(amount)}</b> from ${m.name} — ${money(m.loan.arrears)} interest carries to next cycle`);
+  } else {
+    toast(`Recorded <b>${money(amount)}</b> from ${m.name}`);
+  }
+  closeModal(); renderAll();
+}
+
+function recordDeposit(id, amount){
+  const m = state.members.find(x=>x.id===id); if(!m) return;
+  if(m.defaulter){ toast(`<b>${m.name}</b> is frozen — clear the default first`); return; }
+  m.savings += amount;
+  m.txns.push({type:'deposit',amount,cycle:state.cycle});
+  toast(`<b>${money(amount)}</b> deposited to ${m.name}'s Sengo`);
+  closeModal(); renderAll();
+}
+
+function recordWithdrawal(id, amount){
+  const m = state.members.find(x=>x.id===id); if(!m) return;
+  amount = Math.min(amount, m.savings);
+  m.savings -= amount;
+  m.txns.push({type:'withdrawal',amount,cycle:state.cycle});
+  toast(`<b>${money(amount)}</b> withdrawn from ${m.name}'s Sengo`);
+  closeModal(); renderAll();
+}
+
+function issueLoan(id, principal){
+  const m = state.members.find(x=>x.id===id); if(!m) return;
+  m.loan = { principal, cycles:0, balance:principal, paidThisCycle:true, missed:0, arrears:0 };
+  m.txns.push({type:'loan', amount:principal, cycle:state.cycle});
+  toast(`Loan of <b>${money(principal)}</b> issued to ${m.name}`);
+  closeModal(); switchView('loans'); renderAll();
+}
+
+function addMember(name, phone, savings){
+  state.members.push({
+    id:crypto.randomUUID(), name, phone,
+    joined:String(new Date().getFullYear()),
+    savings:savings||0, interestPaid:0, group:'B', txns:[], loan:null, defaulter:false, reason:null
+  });
+  toast(`<b>${name}</b> registered — karibu!`);
+  closeModal(); renderAll();
+}
+
+function flagDefault(id){
+  const m=state.members.find(x=>x.id===id); if(!m) return;
+  m.defaulter=true; m.reason=m.loan?'loan':'savings';
+  toast(`<b>${m.name}</b> flagged as defaulted`); renderAll();
+}
+function clearDefault(id){
+  const m=state.members.find(x=>x.id===id); if(!m) return;
+  m.defaulter=false; m.reason=null; if(m.loan) m.loan.missed=0;
+  toast(`<b>${m.name}</b> cleared — back in good standing`); renderAll();
+}
+
+/* =====================================================================
+   MODALS
+   ===================================================================== */
+const modalBg = document.getElementById('modalBg');
+const modalContent = document.getElementById('modalContent');
+function closeModal(){ modalBg.classList.remove('open'); modalContent.classList.remove('wide'); }
+modalBg.addEventListener('click',e=>{ if(e.target===modalBg) closeModal(); });
+
+function memberOptions(filterFn){
+  return state.members.filter(filterFn||(()=>true))
+    .map(m=>`<option value="${m.id}">${m.name}</option>`).join('');
+}
+
+function openRepayModal(id){
+  const m = state.members.find(x=>x.id===id);
+  const due = dueThisCycle(m);
+  const arrears = m.loan.arrears||0;
+  const base = due - arrears;
+  const arrearsNote = arrears>0
+    ? ` — includes ${money(arrears)} carried from a previous shortfall`
+    : '';
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Record repayment</h3><p>${m.name} · owes ${money(m.loan.balance)}</p></div>
+    <div class="modal-body">
+      <div class="notice gold" style="font-size:12.5px">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v6l4 2"/></svg>
+        <span>Minimum to hold the balance steady: <b>${money(due)}</b> (this cycle's interest at ${Math.round(loanRate(m)*100)}%${arrearsNote}). Paying less carries the shortfall forward — it isn't held against them.</span>
+      </div>
+      <div class="field"><label>Amount received</label>
+        <input id="repayAmt" type="number" value="${due}" min="0"/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="recordRepayment('${id}', +document.getElementById('repayAmt').value)">Record payment</button>
+    </div>`;
+  modalBg.classList.add('open');
+}
+
+function openDepositModal(id){
+  const preset = id ? `value="${id}"` : '';
+  const opts = memberOptions(m=>!m.defaulter);
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Record a deposit</h3><p>Add savings to a member's Sengo</p></div>
+    <div class="modal-body">
+      <div class="field"><label>Member</label>
+        <select id="depMember">${state.members.filter(m=>!m.defaulter).map(m=>`<option value="${m.id}" ${m.id===id?'selected':''}>${m.name}</option>`).join('')}</select></div>
+      <div class="field"><label>Amount</label>
+        <input id="depAmt" type="number" placeholder="e.g. 5000" min="0"/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="recordDeposit(document.getElementById('depMember').value, +document.getElementById('depAmt').value||0)">Add deposit</button>
+    </div>`;
+  modalBg.classList.add('open');
+}
+
+function openWithdrawModal(id){
+  const m=state.members.find(x=>x.id===id);
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Record a withdrawal</h3><p>${m.name} · balance ${money(m.savings)}</p></div>
+    <div class="modal-body">
+      <div class="field"><label>Amount</label>
+        <input id="wAmt" type="number" placeholder="e.g. 2000" min="0" max="${m.savings}"/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="recordWithdrawal('${id}', +document.getElementById('wAmt').value||0)">Withdraw</button>
+    </div>`;
+  modalBg.classList.add('open');
+}
+
+function openLoanModal(){
+  const opts = memberOptions(m=>!m.loan && !m.defaulter);
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Issue a loan</h3><p>Starts at 20% interest per 30-day cycle</p></div>
+    <div class="modal-body">
+      <div class="field"><label>Member</label><select id="loanMember">${opts}</select></div>
+      <div class="field"><label>Principal amount</label><input id="loanAmt" type="number" placeholder="e.g. 25000" min="0"/></div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="issueLoan(document.getElementById('loanMember').value, +document.getElementById('loanAmt').value||0)">Issue loan</button>
+    </div>`;
+  modalBg.classList.add('open');
+}
+
+function openMemberModal(){
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Register a member</h3><p>Welcome a new sister into Simba Women</p></div>
+    <div class="modal-body">
+      <div class="field"><label>Full name</label><input id="mName" placeholder="e.g. Joyce Kerubo"/></div>
+      <div class="row2">
+        <div class="field"><label>Phone</label><input id="mPhone" placeholder="07XX XXX XXX"/></div>
+        <div class="field"><label>Opening savings</label><input id="mSav" type="number" placeholder="0" min="0"/></div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="submitMember()">Register</button>
+    </div>`;
+  modalBg.classList.add('open');
+}
+function submitMember(){
+  const name=document.getElementById('mName').value.trim();
+  const phone=document.getElementById('mPhone').value.trim()||'—';
+  const sav=+document.getElementById('mSav').value||0;
+  if(!name){ toast('Please enter a name'); return; }
+  addMember(name,phone,sav);
+}
+
+/* =====================================================================
+   AGENT — plain-language updates ("Mary repaid 5000")
+   ===================================================================== */
+state.agentLog = [];
+state.agentHistory = []; // undo stack: { snapshot, label }
+
+function openAgentModal(){
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Tell the agent</h3><p>Say what happened — I'll update loans, repayments, deposits and withdrawals.</p></div>
+    <div class="modal-body">
+      <div class="agent-log" id="agentLog"></div>
+      <div class="agent-examples">Try: "Mary repaid 5000" · "Alice took a loan of 20000" · "Jane deposited 3000"</div>
+      <div class="agent-input-row">
+        <input id="agentInput" placeholder="What happened?" onkeydown="if(event.key==='Enter') submitAgentCommand()"/>
+        <button class="btn btn-gold btn-sm" onclick="submitAgentCommand()">Send</button>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" id="agentUndoBtn" onclick="agentUndo()" ${state.agentHistory.length?'':'disabled'}>Undo last</button>
+      <button class="btn btn-ghost" onclick="closeModal()">Done</button>
+    </div>`;
+  modalContent.classList.add('wide');
+  modalBg.classList.add('open');
+  renderAgentLog();
+  setTimeout(()=>document.getElementById('agentInput')?.focus(),50);
+}
+
+function renderAgentLog(){
+  const log = document.getElementById('agentLog');
+  if(!log) return;
+  log.innerHTML = state.agentLog.length
+    ? state.agentLog.map(e=>`<div class="agent-msg ${e.role}${e.err?' err':''}">${e.text}</div>`).join('')
+    : `<div class="agent-msg agent">Tell me things like <b>"Mary repaid 5000"</b> or <b>"Alice borrowed 15000"</b> and I'll update the books.</div>`;
+  log.scrollTop = log.scrollHeight;
+}
+
+function pushAgentLog(role, text, err){
+  state.agentLog.push({role, text, err});
+  renderAgentLog();
+  const btn = document.getElementById('agentUndoBtn');
+  if(btn) btn.disabled = !state.agentHistory.length;
+}
+
+function parseAgentAmount(text){
+  const m = text.match(/(\d[\d,]*(?:\.\d+)?)\s*(k\b)?/i);
+  if(!m) return null;
+  let n = parseFloat(m[1].replace(/,/g,''));
+  if(isNaN(n)) return null;
+  if(m[2]) n *= 1000;
+  return n;
+}
+
+function findAgentMembers(text){
+  const lower = text.toLowerCase();
+  const clean = n => n.toLowerCase().replace(/\s*\(.*?\)\s*/g,'').trim();
+  const full = state.members.filter(m => lower.includes(clean(m.name)));
+  if(full.length) return full;
+  return state.members.filter(m=>{
+    const parts = clean(m.name).split(' ').filter(p=>p.length>2);
+    return parts.some(p => new RegExp('\\b'+p.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')+'\\b','i').test(lower));
+  });
+}
+
+function submitAgentCommand(){
+  const input = document.getElementById('agentInput');
+  const text = input.value.trim();
+  if(!text) return;
+  pushAgentLog('user', text);
+  input.value = '';
+
+  const lower = text.toLowerCase();
+  const amount = parseAgentAmount(text);
+  const matches = findAgentMembers(text);
+
+  if(!matches.length){
+    pushAgentLog('agent', `I couldn't find a member matching that — check the spelling of the name?`, true);
+    return;
+  }
+  if(matches.length > 1){
+    pushAgentLog('agent', `That could be <b>${matches.map(m=>m.name).join('</b> or <b>')}</b> — could you use their full name?`, true);
+    return;
+  }
+  const member = matches[0];
+  if(amount===null){
+    pushAgentLog('agent', `Got the member (${member.name}) but not an amount — how much?`, true);
+    return;
+  }
+
+  let intent = null;
+  if(/repaid|repay|paid back|paid off|loan repayment|cleared/.test(lower)) intent = 'repay';
+  else if(/borrow|took.*loan|new loan|loan of|issued.*loan/.test(lower)) intent = 'loan';
+  else if(/withdr/.test(lower)) intent = 'withdraw';
+  else if(/deposit|saved|sengo|contribut/.test(lower)) intent = 'deposit';
+  else if(/\bloan\b/.test(lower)) intent = 'loan';
+  else if(/\bpaid\b/.test(lower)) intent = 'repay';
+
+  if(!intent){
+    pushAgentLog('agent', `I understood ${member.name} and ${money(amount)}, but not what happened — repayment, new loan, deposit, or withdrawal?`, true);
+    return;
+  }
+
+  state.agentHistory.push({snapshot: JSON.stringify(state.members), label: text});
+
+  if(intent==='repay'){
+    if(!member.loan){
+      state.agentHistory.pop();
+      pushAgentLog('agent', `${member.name} doesn't have an active loan to repay.`, true);
+      return;
+    }
+    const due = dueThisCycle(member);
+    const payAmount = Math.min(amount, due + member.loan.balance);
+    const interestPortion = Math.min(payAmount, due);
+    member.interestPaid = (member.interestPaid||0) + interestPortion;
+    state.interestPool += interestPortion;
+    if(interestPortion < due){
+      member.loan.arrears = due - interestPortion;
+    } else {
+      member.loan.arrears = 0;
+      member.loan.balance -= (payAmount - interestPortion);
+    }
+    member.loan.paidThisCycle = true;
+    member.loan.missed = 0;
+    member.txns.push({type:'repayment', amount:payAmount, interest:interestPortion, cycle:state.cycle});
+    if(member.loan.balance <= 0){
+      member.loan = null;
+      pushAgentLog('agent', `✓ ${member.name} repaid ${money(payAmount)} and has cleared the loan 🎉`);
+    } else if(interestPortion < due){
+      pushAgentLog('agent', `✓ Recorded ${money(payAmount)} from ${member.name} — ${money(member.loan.arrears)} interest carries to next cycle, balance still ${money(member.loan.balance)}.`);
+    } else {
+      pushAgentLog('agent', `✓ Recorded ${money(payAmount)} repayment from ${member.name} — balance now ${money(member.loan.balance)}.`);
+    }
+  } else if(intent==='loan'){
+    if(member.defaulter){
+      state.agentHistory.pop();
+      pushAgentLog('agent', `${member.name} is currently flagged as defaulted — clear that first.`, true);
+      return;
+    }
+    if(member.loan){
+      member.loan.principal += amount;
+      member.loan.balance += amount;
+      member.txns.push({type:'loan', amount, cycle:state.cycle});
+      pushAgentLog('agent', `✓ Added ${money(amount)} to ${member.name}'s existing loan — new balance ${money(member.loan.balance)}.`);
+    } else {
+      member.loan = { principal:amount, cycles:0, balance:amount, paidThisCycle:true, missed:0, arrears:0 };
+      member.txns.push({type:'loan', amount, cycle:state.cycle});
+      pushAgentLog('agent', `✓ Issued a new loan of ${money(amount)} to ${member.name}.`);
+    }
+  } else if(intent==='deposit'){
+    if(member.defaulter){
+      state.agentHistory.pop();
+      pushAgentLog('agent', `${member.name} is frozen — clear the default before recording a deposit.`, true);
+      return;
+    }
+    member.savings += amount;
+    member.txns.push({type:'deposit',amount,cycle:state.cycle});
+    pushAgentLog('agent', `✓ Recorded ${money(amount)} deposit for ${member.name} — savings now ${money(member.savings)}.`);
+  } else if(intent==='withdraw'){
+    const amt = Math.min(amount, member.savings);
+    member.savings -= amt;
+    member.txns.push({type:'withdrawal',amount:amt,cycle:state.cycle});
+    pushAgentLog('agent', `✓ Recorded ${money(amt)} withdrawal for ${member.name} — savings now ${money(member.savings)}.`);
+  }
+
+  renderAll();
+}
+
+function agentUndo(){
+  const last = state.agentHistory.pop();
+  if(!last) return;
+  state.members = JSON.parse(last.snapshot);
+  pushAgentLog('agent', `↺ Undid: "${last.label}"`);
+  renderAll();
+}
+
+/* =====================================================================
+   PRINT REPORT
+   ===================================================================== */
+/* =====================================================================
+   MONTHLY REPORT — pick a month, print / save as PDF
+   ===================================================================== */
+function openMonthReportModal(){
+  const opts = [];
+  for(let c = state.cycle; c >= 1; c--){
+    opts.push(`<option value="${c}" ${c===state.cycle?'selected':''}>Month ${c}${c===state.cycle?' (current)':''}</option>`);
+  }
+  modalContent.innerHTML = `
+    <div class="modal-head"><h3>Monthly report</h3><p>Deposits, repayments, interest and new loans for one month</p></div>
+    <div class="modal-body">
+      <div class="field"><label>Which month?</label>
+        <select id="mrCycle">${opts.join('')}</select>
+      </div>
+      <p style="font-size:12px;color:var(--muted)">On the print screen, choose <b>"Save as PDF"</b> as the printer to download it. Months recorded before this app started tracking activity will show a full roster but no movements.</p>
+    </div>
+    <div class="modal-foot">
+      <button class="btn btn-quiet" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="printMonthReport(parseInt(document.getElementById('mrCycle').value,10))">Generate PDF</button>
+    </div>`;
+  modalBg.classList.add('open');
+}
+
+function monthActivity(m, cycle){
+  const t = (m.txns||[]).filter(x=>x.cycle===cycle);
+  const sum = (type, field) => t.filter(x=>x.type===type).reduce((s,x)=>s+(x[field==null?'amount':field]||0),0);
+  return {
+    deposits:    sum('deposit'),
+    withdrawals: sum('withdrawal'),
+    repaid:      sum('repayment'),
+    interest:    sum('repayment','interest'),
+    newLoan:     sum('loan')
+  };
+}
+
+function printMonthReport(cycle){
+  closeModal();
+  const isCurrent = cycle === state.cycle;
+  const today = new Date().toLocaleDateString('en-KE',{year:'numeric',month:'long',day:'numeric'});
+  const dash = '<span style="color:#bbb">—</span>';
+
+  let T = {deposits:0, withdrawals:0, repaid:0, interest:0, newLoan:0, due:0};
+  const rows = state.members.map(m=>{
+    const a = monthActivity(m, cycle);
+    const due = (isCurrent && m.loan && !m.defaulter) ? dueThisCycle(m) : 0;
+    T.deposits+=a.deposits; T.withdrawals+=a.withdrawals; T.repaid+=a.repaid;
+    T.interest+=a.interest; T.newLoan+=a.newLoan; T.due+=due;
+    const sengo = a.deposits||a.withdrawals
+      ? money(a.deposits) + (a.withdrawals?` <span style="font-size:10px;color:#a33">(−${money(a.withdrawals)})</span>`:'')
+      : dash;
+    return `<tr>
+      <td>${m.name}${m.defaulter?' <span style="font-size:10px;color:#a33">(defaulted)</span>':''}</td>
+      <td class="r">${sengo}</td>
+      <td class="r">${a.newLoan ? money(a.newLoan) : dash}</td>
+      <td class="r">${a.repaid ? money(a.repaid) : dash}</td>
+      <td class="r">${a.interest ? money(a.interest) : dash}</td>
+      <td class="r">${isCurrent ? (m.loan ? money(due) : dash) : dash}</td>
+      <td class="r">${m.loan ? money(m.loan.balance) : dash}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('printReport').innerHTML = `
+    <div class="pr-head">
+      <div><h1>SIMBA WOMEN</h1><div style="letter-spacing:.2em;font-size:11px;color:#777">SAVINGS &amp; CREDIT COOPERATIVE · NAIROBI</div></div>
+      <div style="text-align:right;font-size:12px;color:#555">Monthly statement — <b>Month ${cycle}</b><br>Printed ${today}</div>
+    </div>
+    <div class="pr-grid">
+      <div class="pr-stat"><div class="k">Sengo deposits</div><div class="v">${money(T.deposits)}</div></div>
+      <div class="pr-stat"><div class="k">Loan repayments</div><div class="v">${money(T.repaid)}</div></div>
+      <div class="pr-stat"><div class="k">Interest collected</div><div class="v">${money(T.interest)}</div></div>
+      <div class="pr-stat"><div class="k">New loans issued</div><div class="v">${money(T.newLoan)}</div></div>
+    </div>
+    <h3 style="font-family:Fraunces;margin-top:10px">Member activity — Month ${cycle}</h3>
+    <table>
+      <thead><tr>
+        <th>Member</th><th class="r">Sengo deposits</th><th class="r">New loan</th>
+        <th class="r">Repayment paid</th><th class="r">…of which interest</th>
+        <th class="r">Interest due${isCurrent?'':' *'}</th><th class="r">Loan balance</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+      <tfoot><tr style="font-weight:600;border-top:2px solid #333">
+        <td>TOTALS (${state.members.length} members)</td>
+        <td class="r">${money(T.deposits)}</td>
+        <td class="r">${money(T.newLoan)}</td>
+        <td class="r">${money(T.repaid)}</td>
+        <td class="r">${money(T.interest)}</td>
+        <td class="r">${isCurrent?money(T.due):'—'}</td>
+        <td class="r">${money(totalOutstanding())}</td>
+      </tr></tfoot>
+    </table>
+    <p style="margin-top:16px;font-size:11px;color:#777">
+      ${isCurrent
+        ? 'Interest due = this cycle\'s 20% interest plus any carried-forward arrears, for members with active loans.'
+        : '* Interest due is only computable for the current open month. Loan balance shown is the balance today.'}
+      Generated by the Simba Women cooperative system.
+    </p>`;
+  window.print();
+}
+
+function printReport(){
+  const pot=totalSavings();
+  const {poolA, poolB, eligA, eligB, perA, perB} = computeDividends();
+  const today=new Date().toLocaleDateString('en-KE',{year:'numeric',month:'long',day:'numeric'});
+  const divRows = [...state.members]
+    .sort((a,b)=> a.group===b.group ? (b.interestPaid||0)-(a.interestPaid||0) : a.group.localeCompare(b.group))
+    .map(m=>{
+      const div = m.group==='A' ? perA : perB;
+      const qualifies = dividendQualifies(m);
+      const status = m.defaulter ? 'Excluded ('+m.reason+')' : (qualifies ? 'Eligible' : 'Below threshold');
+      return `<tr><td>${m.name}</td><td>Group ${m.group}</td><td class="r">${money(m.interestPaid||0)}</td>
+        <td>${status}</td>
+        <td class="r">${qualifies?'+ '+money(div):'Ksh 0'}</td></tr>`;
+  }).join('');
+
+  document.getElementById('printReport').innerHTML = `
+    <div class="pr-head">
+      <div><h1>SIMBA WOMEN</h1><div style="letter-spacing:.2em;font-size:11px;color:#777">SAVINGS &amp; CREDIT COOPERATIVE · NAIROBI</div></div>
+      <div style="text-align:right;font-size:12px;color:#555">Cooperative report<br>Cycle Month ${state.cycle} · ${today}</div>
+    </div>
+    <div class="pr-grid">
+      <div class="pr-stat"><div class="k">Members</div><div class="v">${state.members.length}</div></div>
+      <div class="pr-stat"><div class="k">Total savings</div><div class="v">${money(pot)}</div></div>
+      <div class="pr-stat"><div class="k">Loans outstanding</div><div class="v">${money(totalOutstanding())}</div></div>
+      <div class="pr-stat"><div class="k">Interest pool</div><div class="v">${money(poolA+poolB)}</div></div>
+    </div>
+    <h3 style="font-family:Fraunces;margin-top:10px">Loan portfolio</h3>
+    <table><thead><tr><th>Member</th><th class="r">Principal</th><th class="r">Balance</th><th>Standing</th></tr></thead>
+      <tbody>${withLoans().map(m=>`<tr><td>${m.name}</td><td class="r">${money(m.loan.principal)}</td><td class="r">${money(m.loan.balance)}</td><td>${m.defaulter?'Defaulted':'Current'}</td></tr>`).join('')||'<tr><td colspan=4>No active loans</td></tr>'}</tbody></table>
+    <h3 style="font-family:Fraunces;margin-top:20px">Year-end dividend distribution</h3>
+    <table><thead><tr><th>Member</th><th>Group</th><th class="r">Interest paid</th><th>Eligibility</th><th class="r">Dividend</th></tr></thead>
+      <tbody>${divRows}</tbody></table>
+    <p style="margin-top:16px;font-size:11px;color:#777">Group A (rows 1–26): ${money(poolA)} split evenly across ${eligA.length} members who paid over ${money(GROUP_A_THRESHOLD)} in interest — ${money(perA)} each. Group B (rows 27+): ${money(poolB)} split evenly across ${eligB.length} members who paid ${money(GROUP_B_THRESHOLD)} or more — ${money(perB)} each. Defaulters excluded. Generated by the Simba Women cooperative system.</p>
+  `;
+  window.print();
+}
+
+/* =====================================================================
+   NAV + BOOT
+   ===================================================================== */
+function switchView(v){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('active',t.dataset.view===v));
+  document.querySelectorAll('.view').forEach(s=>s.classList.toggle('active',s.id==='view-'+v));
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderAll(){ saveState(); renderLoans(); renderSengo(); renderRecords(); }
+
+function toast(html){
+  const t=document.getElementById('toast');
+  t.innerHTML=html; t.classList.add('show');
+  clearTimeout(t._t); t._t=setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+/* ---- emblem (original lioness medallion) ---- */
+function emblem(size){
+  const cx=size/2, cy=size/2;
+  const rInner=size*0.30, rRay1=size*0.34, rRay2=size*0.46;
+  let rays='';
+  const N=36;
+  for(let i=0;i<N;i++){
+    const a=(i/N)*Math.PI*2;
+    const long = i%3===0;
+    const r2 = long?rRay2:size*0.42;
+    const x1=cx+Math.cos(a)*rRay1, y1=cy+Math.sin(a)*rRay1;
+    const x2=cx+Math.cos(a)*r2, y2=cy+Math.sin(a)*r2;
+    rays+=`<line class="ray" x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="url(#g)" stroke-width="${long?1.6:1}" style="animation-delay:${0.4+i*0.012}s"/>`;
+  }
+  return `<svg width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" fill="none">
+    <defs>
+      <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#9ED4A6"/><stop offset="1" stop-color="#3F7355"/>
+      </linearGradient>
+    </defs>
+    ${rays}
+    <circle cx="${cx}" cy="${cy}" r="${rInner}" fill="none" stroke="url(#g)" stroke-width="1.4"/>
+    <!-- lioness face, minimal line art -->
+    <g stroke="url(#g)" stroke-width="${size*0.014}" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <!-- ears -->
+      <path d="M${cx-rInner*0.55} ${cy-rInner*0.5} q ${-rInner*0.12} ${-rInner*0.4} ${rInner*0.28} ${-rInner*0.28}"/>
+      <path d="M${cx+rInner*0.55} ${cy-rInner*0.5} q ${rInner*0.12} ${-rInner*0.4} ${-rInner*0.28} ${-rInner*0.28}"/>
+      <!-- cheeks / jaw -->
+      <path d="M${cx-rInner*0.62} ${cy-rInner*0.28} q ${-rInner*0.05} ${rInner*0.75} ${rInner*0.62} ${rInner*0.72} q ${rInner*0.67} ${rInner*0.03} ${rInner*0.62} ${-rInner*0.72}"/>
+      <!-- eyes -->
+      <path d="M${cx-rInner*0.34} ${cy-rInner*0.05} q ${rInner*0.14} ${-rInner*0.14} ${rInner*0.28} 0"/>
+      <path d="M${cx+rInner*0.06} ${cy-rInner*0.05} q ${rInner*0.14} ${-rInner*0.14} ${rInner*0.28} 0"/>
+      <!-- nose + muzzle -->
+      <path d="M${cx} ${cy+rInner*0.12} l ${-rInner*0.1} ${rInner*0.14} q ${rInner*0.1} ${rInner*0.1} ${rInner*0.2} 0 z" fill="url(#g)" stroke="none"/>
+      <path d="M${cx} ${cy+rInner*0.26} v ${rInner*0.16}"/>
+      <path d="M${cx} ${cy+rInner*0.42} q ${-rInner*0.18} ${rInner*0.06} ${-rInner*0.28} ${-rInner*0.04}"/>
+      <path d="M${cx} ${cy+rInner*0.42} q ${rInner*0.18} ${rInner*0.06} ${rInner*0.28} ${-rInner*0.04}"/>
+      <!-- whisker hints -->
+      <path d="M${cx-rInner*0.34} ${cy+rInner*0.34} l ${-rInner*0.26} ${-rInner*0.04}" stroke-width="${size*0.008}"/>
+      <path d="M${cx+rInner*0.34} ${cy+rInner*0.34} l ${rInner*0.26} ${-rInner*0.04}" stroke-width="${size*0.008}"/>
+    </g>
+  </svg>`;
+}
+
+function enterApp(){
+  document.getElementById('splash').classList.add('gone');
+  document.getElementById('app').classList.add('show');
+}
+
+/* boot */
+document.getElementById('splashEmblem').innerHTML = emblem(180);
+document.getElementById('headerEmblem').innerHTML = emblem(34);
+renderAll();
+// allow Enter key on splash
+document.addEventListener('keydown',e=>{ if(e.key==='Enter' && !document.getElementById('splash').classList.contains('gone')) enterApp(); });
+
+// installable as a standalone app — register the service worker (needs http/https, so this
+// no-ops harmlessly when the file is just opened directly from disk)
+if('serviceWorker' in navigator && (location.protocol==='http:'||location.protocol==='https:')){
+  window.addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+}
+</script>
+</body>
+</html>

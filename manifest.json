@@ -1,0 +1,17 @@
+{
+  "name": "Simba Women — Savings & Credit Co-op",
+  "short_name": "Simba Women",
+  "description": "Loan book, Sengo savings, and member records for the Simba Women SACCO.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#0F130E",
+  "theme_color": "#0F130E",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
