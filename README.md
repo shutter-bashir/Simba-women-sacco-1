@@ -11,7 +11,7 @@
 </p>
 
 <p align="center">
-  <b>🔗 Live demo:</b> <a href="#">https://effulgent-marzipan-41c5b2.netlify.app/</a>
+  <b>🔗 Live demo:</b> <a href="#"> https://effulgent-marzipan-41c5b2.netlify.app /</a>
 </p>
 
 ---
